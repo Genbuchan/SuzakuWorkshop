@@ -6,12 +6,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import studio.genbu.suzakuworkshop.Items.CustomItem;
 import studio.genbu.suzakuworkshop.Manager.CustomItemsManager;
 
 public class GetCustomItem implements CommandExecutor {
 
-  private CustomItem testItem;
   private CustomItemsManager customItemsManager;
 
   /**
@@ -19,7 +17,6 @@ public class GetCustomItem implements CommandExecutor {
    */
   public GetCustomItem() {
     this.customItemsManager = CustomItemsManager.getInstance();
-    testItem = customItemsManager.getCustomItem("testitem");
   }
 
   /**
@@ -31,15 +28,28 @@ public class GetCustomItem implements CommandExecutor {
    */
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
     Player player = (Player)sender;
 
-    Inventory inventory = player.getInventory();
+    if(args.length != 0) {
 
-    inventory.addItem(this.testItem.getItemStack());
+      String customItemId = args[0];
 
-    player.updateInventory();
-    
-    return true;
+      if(customItemsManager.hasCustomItemFromItemID(customItemId)) {
+        Inventory inventory = player.getInventory();
+        inventory.addItem(customItemsManager.getCustomItem(customItemId).getItemStack());
+        player.updateInventory();
+        return true;
+      } else {
+        player.sendMessage("そのカスタムアイテムは存在しません。");
+      }
+
+    } else {
+      player.sendMessage("引数がありません。");
+    }
+
+    return false;
+
   }
 
 }

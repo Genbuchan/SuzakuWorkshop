@@ -1,0 +1,11 @@
+name: SuzakuWorkshop
+version: 0.0.0
+api-version: 1.16
+authors: ['Genbuchan']
+depend: [SuzakuCore]
+main: studio.genbu.suzakuworkshop.SuzakuWorkshop
+
+load: STARTUP
+
+commands:
+  getcustomitem:
